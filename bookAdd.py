@@ -1,6 +1,6 @@
 import csv
 
-books=[["Name","ISBN","URL"]]
+books=[["Name","ISBN","URL","Status"]]
 while True:
     bookName=input("Book Name: ")
     if bookName=="false":
