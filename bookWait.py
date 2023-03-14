@@ -23,6 +23,7 @@ for i in ISBN:
     searchBar.send_keys(f'{i}')
     searchBtn.click()
     bookUrl=driver.current_url
+   #row_num=bookList[bookList['ISBN']==i].index
     page=requests.get(bookUrl,headers=headers)
     #print(page)
 
@@ -30,5 +31,7 @@ for i in ISBN:
     val=soup.find("input",value="ADD TO CART")
     if val is None:
         print("Book not available to cart!")
+        #bookList.loc[row_num,['Status']]=0
     else:
         print("Book is available to cart!")
+        #bookList.loc[row_num,['Status']]=1
