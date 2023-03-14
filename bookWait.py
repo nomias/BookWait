@@ -11,4 +11,7 @@ page=requests.get(URL,headers=headers)
 
 soup=BeautifulSoup(page.text,'html.parser')
 val=soup.find("input",value="ADD TO CART")
-print(val)
+if val is None:
+    print("Book not available to cart!")
+else:
+    print("Book is available to cart!")
