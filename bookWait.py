@@ -14,6 +14,7 @@ ISBN=bookList.ISBN.to_numpy()
 #print(ISBN)
 URL='https://www.barnesandnoble.com/'
 options=webdriver.EdgeOptions()
+options.add_experimental_option('excludeSwitches', ['enable-logging'])
 options.add_experimental_option("detach",True)
 driver=webdriver.Edge(options=options)
 driver.get(URL)
