@@ -1,9 +1,11 @@
 import requests
 import smtplib
 import pandas as pd
-from bs4 import BeautifulSoup
+#from bs4 import BeautifulSoup
 from selenium import webdriver
 from selenium.webdriver.common.by import By
+from selenium.webdriver.support.wait import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 
 headers={
     "User-agent":'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36 Edg/110.0.1587.69'
@@ -27,15 +29,17 @@ for i in ISBN:
     row_num=bookList[bookList['ISBN']==i].index.values
     row_num_val=row_num.item(0)
     bookList.loc[row_num_val,'URL']=bookUrl
-    page=requests.get(bookUrl,headers=headers)
+    #page=requests.get(bookUrl,headers=headers)
+    #cart=driver.find_element(By.XPATH,"//input[@value=\"ADD TO CART\"]")
     #print(page)
 
-    soup=BeautifulSoup(page.text,'html.parser')
-    val=soup.find("input",value="ADD TO CART")
-    if val is None:
-        print("Book not available to cart!")
-        bookList.loc[row_num_val,'Status']=0
-    else:
+    #soup=BeautifulSoup(page.text,'html.parser')
+    #val=soup.find("input",value="ADD TO CART")
+    try:
+        cart=WebDriverWait(driver,10).until(EC.presence_of_element_located((By.XPATH,"//input[@value=\"ADD TO CART\"]")))
         print("Book is available to cart!")
         bookList.loc[row_num_val,'Status']=1
+    except:
+        print("Book not available to cart!")
+        bookList.loc[row_num_val,'Status']=0
     bookList.to_csv('bookList.csv',index=False)
